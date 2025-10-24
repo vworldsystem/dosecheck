@@ -2,19 +2,19 @@
   "name": "DoseCheck",
   "short_name": "DoseCheck",
   "description": "영양제/약 복용 체크 & 알림 PWA",
-  "start_url": "/dosecheck/index.html",
-  "scope": "/dosecheck/",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#111827",
   "theme_color": "#10b981",
   "icons": [
     {
-      "src": "icons/icon-192.png",
+      "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-512.png",
+      "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

@@ -1,4 +1,3 @@
-// app.js
 const $ = (sel, root=document)=>root.querySelector(sel);
 const $$ = (sel, root=document)=>Array.from(root.querySelectorAll(sel));
 
@@ -11,8 +10,7 @@ const store = {
 const state = store.read();
 
 function todayKey(d = new Date()){
-  const tz = d.toLocaleDateString('en-CA'); // YYYY-MM-DD
-  return tz;
+  return d.toLocaleDateString('en-CA');
 }
 
 function render(){
@@ -73,7 +71,6 @@ function updateProgress(idx){
 }
 
 function addDefault(name, count){
-  // evenly distribute times from 08:00-22:00
   const start = 8, end = 22;
   const gap = (end - start) / (count-1 || 1);
   const times = Array.from({length:count}, (_,i)=>{
@@ -86,10 +83,8 @@ function addDefault(name, count){
 }
 
 function scheduleTick(){
-  // check every minute for upcoming reminders within 0-1 minute window
   if (!state.settings.reminders) return;
   if (!("Notification" in window)) return;
-
   const now = new Date();
   const curHHMM = now.toTimeString().slice(0,5);
   const day = todayKey(now);
@@ -97,7 +92,6 @@ function scheduleTick(){
   state.items.forEach((it, idx)=>{
     (it.times||[]).forEach((t, j)=>{
       const key = `${idx}-${j}`;
-      // Only notify once per time slot per day
       const notifiedKey = `notified-${day}-${key}`;
       const already = sessionStorage.getItem(notifiedKey);
       if (t === curHHMM && !already && !history[key]){
@@ -112,12 +106,7 @@ function notify(title, body){
   if (Notification.permission === "granted"){
     navigator.serviceWorker.getRegistration().then(reg=>{
       if (reg){
-        reg.showNotification(title, {
-          body,
-          icon:"/dosecheck/icons/icon-192.png",
-          badge:"/dosecheck/icons/icon-192.png",
-          vibrate:[100,50,100]
-        });
+        reg.showNotification(title, { body, icon:"./icons/icon-192.png", badge:"./icons/icon-192.png", vibrate:[100,50,100] });
       } else {
         new Notification(title, {body});
       }
@@ -127,7 +116,7 @@ function notify(title, body){
 
 function ensureSW(){
   if ("serviceWorker" in navigator){
-    navigator.serviceWorker.register("/dosecheck/sw.js");
+    navigator.serviceWorker.register("./sw.js");
   }
 }
 
@@ -235,7 +224,6 @@ function bind(){
 function init(){
   ensureSW();
   requestNotif();
-  // Seed example if empty
   if (state.items.length === 0){
     state.items.push({name:"비타민C", times:["08:00","14:00","20:00"]});
     store.write(state);
