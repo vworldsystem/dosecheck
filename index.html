@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#10b981"/>
+  <link rel="manifest" href="manifest.webmanifest"/>
+  <link rel="icon" href="icons/icon-192.png" sizes="192x192"/>
+  <title>DoseCheck · 영양제 복용 체크</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>💊 DoseCheck <span class="badge">오프라인/설치형 PWA</span></h1>
+      <div class="small">오늘 날짜: <span id="today"></span> · 홈화면에 추가해 설치형처럼 사용하세요.</div>
+      <div class="row" style="margin-top:8px">
+        <label class="pill"><input id="toggleRemind" type="checkbox" style="margin-right:6px"> 알림 사용(브라우저 권한 필요)</label>
+        <button id="export" class="ghost">백업(.json)</button>
+        <button id="import" class="ghost">가져오기</button>
+        <input id="importFile" type="file" accept="application/json" class="hidden">
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <h2>새 항목 추가</h2>
+      <div class="grid2">
+        <input id="newName" placeholder="예: 비타민C / 오메가3 / 유산균">
+        <select id="mode">
+          <option value="3">하루 3회</option>
+          <option value="6">하루 6회</option>
+          <option value="custom">사용자 지정 횟수</option>
+        </select>
+        <div id="customWrap" class="hidden"><input id="customCount" type="number" min="1" max="12" value="4" placeholder="횟수 (1~12)" /></div>
+        <button class="primary" data-add>추가</button>
+      </div>
+      <div class="small" style="margin-top:6px">기본 시간은 08:00~22:00 사이로 균등 분배됩니다. 각 회차의 시간을 자유롭게 수정하세요.</div>
+    </div>
+
+    <div id="empty" class="card" style="margin-top:12px">
+      <h2>아직 항목이 없어요</h2>
+      <div class="small">위에서 항목을 추가해 시작해보세요. 예: 비타민C(3회), 유산균(1회)</div>
+    </div>
+
+    <div id="items" class="list" style="margin-top:12px"></div>
+
+    <footer>
+      <p>설치 방법: 1) 상단 메뉴(⋮ 또는 공유) → <kbd>홈 화면에 추가</kbd> 2) 알림 허용. 오프라인에서도 작동합니다.</p>
+      <p class="small">※ 브라우저/OS 제한으로 정확한 시각 알림은 앱이 열려 있거나 최근에 사용된 경우에 더 잘 동작합니다.</p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("today").textContent = new Date().toLocaleDateString("ko-KR", {year:"numeric", month:"long", day:"numeric", weekday:"short"});
+  </script>
+</body>
+</html>
